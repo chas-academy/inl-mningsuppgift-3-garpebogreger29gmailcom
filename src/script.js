@@ -1,5 +1,5 @@
-const writtenName = document.getElementById("productInput");
-const writtenPrice = document.getElementById("priceInput");
+const productInput = document.getElementById("productInput");
+const priceInput = document.getElementById("priceInput");
 const addButton = document.getElementById("addButton");
 const cartList = document.getElementById("cartList");
 
@@ -8,42 +8,42 @@ let cart = [];
 addButton.addEventListener("click", addProduct);
 
 function addProduct() {
-  const name = writtenName.value;
-  const price = Number(writtenPrice.value);
+  const productName = productInput.value;
+  const productPrice = Number(priceInput.value);
 
-  if (name !== "" && price > 0) {
-    let found = false;
+  if (productName !== "" && productPrice > 0) {
+    let itemFound = false;
 
     for (let item of cart) {
-      if (item.productName === name) {
-        item.quantity = item.quantity + 1;
-        found = true;
+      if (item.productName === productName) {
+        item.quantity++;
+        itemFound = true;
+        break;
       }
     }
 
-    if (!found) {
-      const item = {
-        productName: name,
-        price: price,
+    if (!itemFound) {
+      const newItem = {
+        productName: productName,
+        productPrice: productPrice,
         quantity: 1
       };
-
-      cart.push(item);
+      cart.push(newItem);
     }
 
-    writtenName.value = "";
-    writtenPrice.value = "";
+    productInput.value = "";
+    priceInput.value = "";
 
-    showCart();
+    updateCart();
   }
 }
 
-function showCart() {
+function updateCart() {
   cartList.innerHTML = "";
 
   for (let item of cart) {
     const li = document.createElement("li");
-    li.innerText = item.productName + " - " + item.price + " Kr (Antal: " + item.quantity + ")";
+    li.textContent = `${item.productName} - ${item.productPrice}kr (x${item.quantity})`;
     cartList.appendChild(li);
   }
 }
